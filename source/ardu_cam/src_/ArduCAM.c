@@ -173,7 +173,13 @@ Error_Code_T getImage(uint8_t *image, uint32_t size)
 			}
 			CS_HIGH();
 
-			if((image[0] == 0xFF) && (image[1] == 0xD8) && image[2] == 0xFF)
+			while(image[length-1] == 0)
+			{
+				delay(1);
+				length--;
+			}
+
+			if((image[0] == 0xFF) && (image[1] == 0xD8) && (image[2] == 0xFF) && (image[length-1] == 0xD9) && (image[length-2] == 0xFF))
 			{
 				result = SUCCESS;
 			}

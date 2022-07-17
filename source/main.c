@@ -65,19 +65,35 @@ int main(void) {
 						PRINTF("Set camera properties success, camera ready to work\r\n");
 
 						int photoCounter = 0;
-
-						PRINTF("Start Capture\r\n");
-						makePhotoCapture();
-						PRINTF("Capture Done\r\n");
-
+						uint32_t length = 0;
 						uint8_t image[IMAGE_SIZE] = {0};
-						Error_Code_T getImgStatus = getImage(image, IMAGE_SIZE);
-						PRINTF("check correct jpg format: %d\r\n", getImgStatus);
 
-						SysTick_Config(SystemCoreClock / 100U);
+						while(1)
+						{
+							PRINTF("Start Capture\r\n");
+							makePhotoCapture();
+							PRINTF("Capture Done\r\n");
 
-						uint32_t length = getlenghtJPEG();
-						PRINTF("JPEG size = %d\r\n", length);
+							Error_Code_T getImgStatus = getImage(image, IMAGE_SIZE);
+							PRINTF("check correct jpg format: %d\r\n", getImgStatus);
+
+	//						SysTick_Config(SystemCoreClock / 100U);
+
+							length = getlenghtJPEG();
+							PRINTF("JPEG size = %d\r\n", length);
+
+							PRINTF("number frame = %d\r\n", photoCounter);
+							if(photoCounter == 100)
+							{
+								break;
+							}
+							photoCounter++;
+
+							clearFifoFlag();
+							clearFifoFlag();
+							delay(1);
+						}
+
 						for(int i = 0; i < length; i++)
 						{
 							PRINTF("%d,", image[i]);

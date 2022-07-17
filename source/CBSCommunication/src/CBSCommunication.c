@@ -78,7 +78,7 @@ static uint8_t bus_read(int address)
 
 	uint8_t send_data[] = { address, 0x00 };
 	uint8_t read_data[2] = { 0 };
-	send_and_read_spi(send_data, 2, read_data);
+	(void) send_and_read_spi(send_data, 2, read_data);
 	uint8_t value = read_data[1];
 
 	CS_HIGH();
